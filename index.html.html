@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Ofimática - Curi Pahuara David</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .certificate-container {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .qr-container {
+            flex: 0 0 300px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .certificate-header {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .certificate-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .certificate-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .certificate-body {
+            padding: 30px;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        
+        .student-info {
+            margin-bottom: 25px;
+        }
+        
+        .info-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .info-card h3 {
+            color: #1a2a6c;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .value {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .grade {
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .grade h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+        
+        .grade .score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dates {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .date-card {
+            flex: 1;
+            min-width: 150px;
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .date-card h4 {
+            color: #1a2a6c;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .certificate-footer {
+            text-align: center;
+            padding: 18px;
+            background-color: #f5f5f5;
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .qr-title {
+            color: #1a2a6c;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        #qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        #qrcode:hover {
+            transform: scale(1.05);
+        }
+        
+        .redirect-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .redirect-button:hover {
+            background: linear-gradient(to right, #b21f1f, #1a2a6c);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        
+        .instructions h3 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #388e3c;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .certificate-container, .qr-container {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .certificate-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .certificate-body {
+                padding: 20px;
+            }
+            
+            .dates {
+                flex-direction: column;
+            }
+            
+            .grade .score {
+                font-size: 3rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+            }
+            
+            .label, .value {
+                width: 100%;
+            }
+            
+            .value {
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Certificado de Ofimática</h1>
+    
+    <div class="container">
+        <div class="certificate-container">
+            <div class="certificate-header">
+                <h1>CERTIFICADO ACADÉMICO</h1>
+                <p>OFIMÁTICA PROFESIONAL - NIVEL AVANZADO</p>
+            </div>
+            
+            <div class="certificate-body">
+                <div class="success-message">
+                    <h2>¡Certificado 66d66fbecb7d2 encontrado!</h2>
+                    <p>Verifique los siguientes datos por favor</p>
+                </div>
+                
+                <div class="student-info">
+                    <div class="info-card">
+                        <h3>Información del Estudiante</h3>
+                        <div class="info-item">
+                            <span class="label">Estudiante:</span>
+                            <span class="value">CURI PAHUARA DAVID</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Evento:</span>
+                            <span class="value">OFIMÁTICA PROFESIONAL (MICROSOFT WORD, EXCEL Y POWERPOINT) - NIVEL AVANZADO</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Tipo:</span>
+                            <span class="value">Curso Intensivo</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Institución:</span>
+                            <span class="value">Instituto Tecnológico ITEC</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grade">
+                        <h2>Calificación Final</h2>
+                        <div class="score">18</div>
+                        <p>Excelente desempeño académico - Mención Honorable</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Detalles del Curso</h3>
+                        <div class="info-item">
+                            <span class="label">Duración:</span>
+                            <span class="value">Del 12-08-2024 al 30-08-2024 (90 horas)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Modalidad:</span>
+                            <span class="value">Virtual - Plataforma Microsoft 365</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Instructor:</span>
+                            <span class="value">Lic. María Elena Rodríguez</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dates">
+                    <div class="date-card">
+                        <h4>Fecha de Generación</h4>
+                        <p>07-09-2024</p>
+                    </div>
+                    <div class="date-card">
+                        <h4>Fecha de Emisión</h4>
+                        <p>07-09-2024</p>
+                    </div>
+                    <div class="date-card">
+                        <h4>Válido hasta</h4>
+                        <p>07-09-2026</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="certificate-footer">
+                <p>Certificado electrónico válido sin necesidad de firma manuscrita según la Ley 27269</p>
+                <p>© 2024 Instituto Tecnológico ITEC - Todos los derechos reservados</p>
+            </div>
+        </div>
+        
+        <div class="qr-container">
+            <h2 class="qr-title">Código QR de Verificación</h2>
+            <div id="qrcode"></div>
+            <a href="https://certificadoitec.com/verify/66d66fbecb7d2" class="redirect-button" target="_blank">Verificar Certificado</a>
+            <a href="#" class="download-btn" onclick="downloadQR()">Descargar Código QR</a>
+            
+            <div class="instructions">
+                <h3>Instrucciones de uso:</h3>
+                <ol>
+                    <li>Escanea este código QR con la cámara de tu teléfono</li>
+                    <li>Se abrirá automáticamente la página de verificación</li>
+                    <li>También puedes hacer clic en el QR para abrir el enlace</li>
+                    <li>Descarga el QR para compartirlo o imprimirlo</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generar código QR
+        const qrUrl = "https://certificadoitec.com/verify/66d66fbecb7d2";
+        
+        QRCode.toCanvas(document.getElementById('qrcode'), qrUrl, {
+            width: 180,
+            margin: 1,
+            color: {
+                dark: '#1a2a6c',
+                light: '#ffffff'
+            }
+        }, function(error) {
+            if (error) console.error(error);
+        });
+        
+        // Función para descargar el código QR
+        function downloadQR() {
+            const canvas = document.querySelector('#qrcode canvas');
+            const link = document.createElement('a');
+            link.download = 'codigo-qr-certificado-curi-pahuara.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // También redirigir si se hace clic en el código QR
+        document.getElementById('qrcode').addEventListener('click', function() {
+            window.open(qrUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
